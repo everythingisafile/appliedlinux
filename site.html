@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Linux - Introduction</title>
+    <style>
+        @charset "UTF-8";
+
+        /* Import ET Book styles */
+        @font-face {
+            font-family: "et-book";
+            src: url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot");
+            src: url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot?#iefix") format("embedded-opentype"), url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.woff") format("woff"), url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.ttf") format("truetype"), url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.svg#etbookromanosf") format("svg");
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "et-book";
+            src: url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot");
+            src: url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot?#iefix") format("embedded-opentype"), url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.woff") format("woff"), url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.ttf") format("truetype"), url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.svg#etbookromanosf") format("svg");
+            font-weight: normal;
+            font-style: italic;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "et-book";
+            src: url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.eot");
+            src: url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.eot?#iefix") format("embedded-opentype"), url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.woff") format("woff"), url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.ttf") format("truetype"), url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.svg#etbookromanosf") format("svg");
+            font-weight: bold;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "et-book-roman-old-style";
+            src: url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.eot");
+            src: url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.eot?#iefix") format("embedded-opentype"), url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.woff") format("woff"), url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.ttf") format("truetype"), url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.svg#etbookromanosf") format("svg");
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* Tufte CSS styles */
+        html {
+            font-size: 15px;
+        }
+
+        body {
+            width: 87.5%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 12.5%;
+            font-family: et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+            background-color: #fffff8;
+            color: #111;
+            max-width: 1400px;
+            counter-reset: sidenote-counter;
+        }
+
+        /* Adds dark mode */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #151515;
+                color: #ddd;
+            }
+        }
+
+        h1 {
+            font-weight: 400;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            font-size: 3.2rem;
+            line-height: 1;
+        }
+
+        h2 {
+            font-style: italic;
+            font-weight: 400;
+            margin-top: 2.1rem;
+            margin-bottom: 1.4rem;
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+
+        h3 {
+            font-style: italic;
+            font-weight: 400;
+            font-size: 1.7rem;
+            margin-top: 2rem;
+            margin-bottom: 1.4rem;
+            line-height: 1;
+        }
+
+        hr {
+            display: block;
+            height: 1px;
+            width: 55%;
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 1em 0;
+            padding: 0;
+        }
+
+        p.subtitle {
+            font-style: italic;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            display: block;
+            line-height: 1;
+        }
+
+        .numeral {
+            font-family: et-book-roman-old-style;
+        }
+
+        .danger {
+            color: red;
+        }
+
+        article {
+            padding: 5rem 0rem;
+        }
+
+        section {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        p,
+        dl,
+        ol,
+        ul {
+            font-size: 1.4rem;
+            line-height: 2rem;
+        }
+
+        p {
+            margin-top: 1.4rem;
+            margin-bottom: 1.4rem;
+            padding-right: 0;
+            vertical-align: baseline;
+        }
+
+        /* Chapter Epigraphs */
+        div.epigraph {
+            margin: 5em 0;
+        }
+
+        div.epigraph>blockquote {
+            margin-top: 3em;
+            margin-bottom: 3em;
+        }
+
+        div.epigraph>blockquote,
+        div.epigraph>blockquote>p {
+            font-style: italic;
+        }
+
+        div.epigraph>blockquote>footer {
+            font-style: normal;
+        }
+
+        div.epigraph>blockquote>footer>cite {
+            font-style: italic;
+        }
+
+        blockquote {
+            font-size: 1.4rem;
+        }
+
+        blockquote p {
+            width: 55%;
+            margin-right: 40px;
+        }
+
+        blockquote footer {
+            width: 55%;
+            font-size: 1.1rem;
+            text-align: right;
+        }
+
+        section>p,
+        section>footer,
+        section>table {
+            width: 55%;
+        }
+
+        /* 50 + 5 == 55, to be the same width as paragraph */
+        section>dl,
+        section>ol,
+        section>ul {
+            width: 50%;
+            -webkit-padding-start: 5%;
+        }
+
+        dt:not(:first-child),
+        li:not(:first-child) {
+            margin-top: 0.25rem;
+        }
+
+        figure {
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+            max-width: 55%;
+            -webkit-margin-start: 0;
+            -webkit-margin-end: 0;
+            margin: 0 0 3em 0;
+        }
+
+        figcaption {
+            float: right;
+            clear: right;
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            vertical-align: baseline;
+            position: relative;
+            max-width: 40%;
+        }
+
+        figure.fullwidth figcaption {
+            margin-right: 24%;
+        }
+
+        /* Links: replicate underline that clears descenders */
+        a:link,
+        a:visited {
+            color: inherit;
+        }
+
+        .no-tufte-underline:link {
+            background: unset;
+            text-shadow: unset;
+        }
+
+        a:link,
+        .tufte-underline,
+        .hover-tufte-underline:hover {
+            text-decoration: none;
+            background: -webkit-linear-gradient(#fffff8, #fffff8), -webkit-linear-gradient(#fffff8, #fffff8), -webkit-linear-gradient(currentColor, currentColor);
+            background: linear-gradient(#fffff8, #fffff8), linear-gradient(#fffff8, #fffff8), linear-gradient(currentColor, currentColor
+
+);
+            -webkit-background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+            -moz-background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+            background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+            background-repeat: no-repeat, no-repeat, repeat-x;
+            text-shadow: 0.03em 0 #fffff8, -0.03em 0 #fffff8, 0 0.03em #fffff8, 0 -0.03em #fffff8, 0.06em 0 #fffff8, -0.06em 0 #fffff8, 0.09em 0 #fffff8, -0.09em 0 #fffff8, 0.12em 0 #fffff8, -0.12em 0 #fffff8, 0.15em 0 #fffff8, -0.15em 0 #fffff8;
+            background-position: 0% 93%, 100% 93%, 0% 93%;
+        }
+
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            a:link,
+            .tufte-underline,
+            .hover-tufte-underline:hover {
+                background-position-y: 87%, 87%, 87%;
+            }
+        }
+
+        /* Adds dark mode */
+        @media (prefers-color-scheme: dark) {
+            a:link,
+            .tufte-underline,
+            .hover-tufte-underline:hover {
+                text-shadow: 0.03em 0 #151515, -0.03em 0 #151515, 0 0.03em #151515, 0 -0.03em #151515, 0.06em 0 #151515, -0.06em 0 #151515, 0.09em 0 #151515, -0.09em 0 #151515, 0.12em 0 #151515, -0.12em 0 #151515, 0.15em 0 #151515, -0.15em 0 #151515;
+            }
+        }
+
+        a:link::selection,
+        a:link::-moz-selection {
+            text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe, 0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe, -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe, -0.15em 0 #b4d5fe;
+            background: #b4d5fe;
+        }
+
+        /* Sidenotes, margin notes, figures, captions */
+        img {
+            max-width: 100%;
+        }
+
+        .sidenote,
+        .marginnote {
+            float: right;
+            clear: right;
+            margin-right: -60%;
+            width: 50%;
+            margin-top: 0.3rem;
+            margin-bottom: 0;
+            font-size: 1.1rem;
+            line-height: 1.3;
+            vertical-align: baseline;
+            position: relative;
+        }
+
+        .sidenote-number {
+            counter-increment: sidenote-counter;
+        }
+
+        .sidenote-number:after,
+        .sidenote:before {
+            font-family: et-book-roman-old-style;
+            position: relative;
+            vertical-align: baseline;
+        }
+
+        .sidenote-number:after {
+            content: counter(sidenote-counter);
+            font-size: 1rem;
+            top: -0.5rem;
+            left: 0.1rem;
+        }
+
+        .sidenote:before {
+            content: counter(sidenote-counter) " ";
+            font-size: 1rem;
+            top: -0.5rem;
+        }
+
+        blockquote .sidenote,
+        blockquote .marginnote {
+            margin-right: -82%;
+            min-width: 59%;
+            text-align: left;
+        }
+
+        div.fullwidth,
+        table.fullwidth {
+            width: 100%;
+        }
+
+        div.table-wrapper {
+            overflow-x: auto;
+            font-family: "Trebuchet MS", "Gill Sans", "Gill Sans MT", sans-serif;
+        }
+
+        .sans {
+            font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+            letter-spacing: .03em;
+        }
+
+        code,
+        pre>code {
+            font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 1.0rem;
+            line-height: 1.42;
+            -webkit-text-size-adjust: 100%;
+            /* Prevent adjustments of font size after orientation changes in iOS. See https://github.com/edwardtufte/tufte-css/issues/81#issuecomment-261953409 */
+        }
+
+        .sans>code {
+            font-size: 1.2rem;
+        }
+
+        h1>code,
+        h2>code,
+        h3>code {
+            font-size: 0.80em;
+        }
+
+        .marginnote>code,
+        .sidenote>code {
+            font-size: 1rem;
+        }
+
+        pre>code {
+            font-size: 0.9rem;
+            width: 52.5%;
+            margin-left: 2.5%;
+            overflow-x: auto;
+            display: block;
+        }
+
+        pre.fullwidth>code {
+            width: 90%;
+        }
+
+        .fullwidth {
+            max-width: 90%;
+            clear: both;
+        }
+
+        span.newthought {
+            font-variant: small-caps;
+            font-size: 1.2em;
+        }
+
+        input.margin-toggle {
+            display: none;
+        }
+
+        label.sidenote-number {
+            display: inline-block;
+            max-height: 2rem;
+            /* should be less than or equal to paragraph line-height */
+        }
+
+        label.margin-toggle:not(.sidenote-number) {
+            display: none;
+        }
+
+        .iframe-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 */
+            padding-top: 25px;
+            height: 0;
+        }
+
+        .iframe-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        @media (max-width: 760px) {
+            body {
+                width: 84%;
+                padding-left: 8%;
+                padding-right: 8%;
+            }
+
+            hr,
+            section>p,
+            section>footer,
+            section>table {
+                width: 100%;
+            }
+
+            pre>code {
+                width: 97%;
+            }
+
+            section>dl,
+            section>ol,
+            section>ul {
+                width: 90%;
+            }
+
+            figure {
+                max-width: 90%;
+            }
+
+            figcaption,
+            figure.fullwidth figcaption {
+                margin-right: 0%;
+                max-width: none;
+            }
+
+            blockquote {
+                margin-left: 1.5em;
+                margin-right: 0em;
+            }
+
+            blockquote p,
+            blockquote footer {
+                width: 100%;
+            }
+
+            label.margin-toggle:not(.sidenote-number) {
+                display: inline;
+            }
+
+            .sidenote,
+            .marginnote {
+                display: none;
+            }
+
+            .margin-toggle:checked+.sidenote,
+            .margin-toggle:checked+.marginnote {
+                display: block;
+                float: left;
+                left: 1rem;
+                clear: both;
+                width: 95%;
+                margin: 1rem 2.5%;
+                vertical-align: baseline;
+                position: relative;
+            }
+
+            label {
+                cursor: pointer;
+            }
+
+            div.table-wrapper,
+            table {
+                width: 85%;
+            }
+
+            img {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+    <h1>Applied Linux</h1>
+        <p class="subtitle">Your guide to mastering Linux, from entry to intermediate concepts.</p>
+    </header>
+
+    <main>
+<section id="downloads">
+    <h2>Downloads</h2>
+    <p>Below are links to download resources related to the Applied Linux book:</p>
+
+    <h3>Audio Recordings</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Format</th>
+                <th>Download Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Applied Linux</td>
+                <td>SoundCloud</td>
+                <td><a href="https://soundcloud.com/applied-linux">Listen now!</a></td>
+            </tr>
+            <tr>
+                <td>Applied Linux - Episode 01</td>
+                <td>FLAC</td>
+                <td><a href="downloads/AppliedLinux-E01.flac">Download</a></td>
+            </tr>
+            <tr>
+                <td>Applied Linux - Episode 02</td>
+                <td>FLAC</td>
+                <td><a href="downloads/AppliedLinux-E02.flac">Download</a></td>
+            </tr>
+            <tr>
+                <td>Applied Linux - Episode 03</td>
+                <td>FLAC</td>
+                <td><a href="downloads/AppliedLinux-E03.flac">Download</a></td>
+            </tr>
+            <tr>
+                <td>Applied Linux - Episode 04</td>
+                <td>FLAC</td>
+                <td><a href="downloads/AppliedLinux-E04.flac">Download</a></td>
+            </tr>
+            <tr>
+                <td>Applied Linux - Episode 05</td>
+                <td>FLAC</td>
+                <td><a href="downloads/AppliedLinux-E05.flac">Download</a></td>
+            </tr>
+            <tr>
+                <td>Applied Linux - Episode 06</td>
+                <td>FLAC</td>
+                <td><a href="downloads/AppliedLinux-E06.flac">Download</a></td>
+            </tr>
+            <tr>
+                <td>Applied Linux - Episode 07</td>
+                <td>FLAC</td>
+                <td><a href="downloads/AppliedLinux-E07.flac">Download</a></td>
+            </tr>
+            <tr>
+                <td>Applied Linux - Episode 08</td>
+                <td>FLAC</td>
+                <td><a href="downloads/AppliedLinux-E08.flac">Download</a></td>
+            </tr>
+            <tr>
+                <td>Applied Linux - Episode 09</td>
+                <td>FLAC</td>
+                <td><a href="downloads/AppliedLinux-E09.flac">Download</a></td>
+            </tr>
+            <tr>
+                <td>Applied Linux - Episode 10</td>
+                <td>FLAC</td>
+                <td><a href="downloads/AppliedLinux-E10.flac">Download</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Samples</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Format</th>
+                <th>Download Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Applied Linux Introduction</td>
+                <td>PDF</td>
+                <td><a href="downloads/AppliedLinux-TOC-Introduction.pdf">Download</a></td>
+            </tr>
+            <tr>
+                <td>Download eBook</td>
+                <td>Coming Soon</td>
+                <td><a href="downloads/AppliedLinux-TOC-Introduction.pdf">Coming Soon</a></td>
+            </tr>
+            <tr>
+                <td>Getting Started</td>
+                <td>PDF</td>
+                <td><a href="downloads/AppliedLinux-GettingStarted.pdf">Coming Soon</a></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+        <article>
+            <section id="contents">
+                <h2>Contents</h2>
+                <p>
+                    <strong>What is Linux?</strong><br>
+		    <span class="marginnote">There are multiple utility sets including the coreutils of the GNU Project from the Free Software Foundation, musl libc based utilities popular with Alpine users, and BusyBox which includes a large set of UNIX-like utilities into a single small executable.</span> 
+                    Linux is a kernel, a core component of an operating system when combined with utilities, allowing users to run a wide range of applications from games to accounting software. Understanding Linux is like mastering a musical instrument in a band, where the kernel acts as the manager, and utilities play supporting roles.
+                </p>
+
+                <p>
+                    <strong>Why Linux?</strong><br>
+                    Linux powers supercomputers, Mars rovers, and more. It is supported by a global community, making it a versatile, collaborative platform available to everyone. Developers contribute to repositories, making software accessible and secure.
+                </p>
+                <p>
+                    <strong>The Power of Open Source</strong><br>
+		    <span class="marginnote">The Linux Foundation supports a massive ecosystem with over 780,000 technical contributors, 17,000 contributing organizations, and 850 open source projects. Since 2005, the Linux kernel alone has seen contributions from more than 13,500 developers representing over 1,300 companies. (Source: Linux Foundation).</span>
+                </p>
+                <p>
+                    <strong>Supercomputers</strong><br>
+                    All top-ranked supercomputers run on Linux due to its customization, stability, and high-performance application support, making it ideal for handling vast amounts of data and complex calculations.
+                </p>
+                <p>
+                    <strong>Space Exploration</strong><br>
+		    <span class="marginnote">Taking into account the overlap between users who might use Linux on multiple devices (e.g., a person using a Linux desktop, an Android phone, and interacting with Linux servers), the total number of unique Linux users globally is estimated to be in the range of 2.8 to 3.5 billion. This figure is heavily influenced by the sheer number of Android users, as Android is by far the most common form of Linux in use today.</span> 
+                    NASA’s Mars rovers, including Perseverance, use Linux, highlighting its reliability in harsh environments. Its open-source nature allows for modifications tailored to space exploration.
+                </p>
+                <p>
+                    <strong>Drones</strong><br>
+                    Linux is widely used in drones, especially for research and commercial purposes, due to its flexibility in developing flight control software and real-time data processing.
+                </p>
+                <p>
+                    <strong>Personal Computers</strong><br>
+		    <span class="marginnote">"Year of the Linux Desktop" remains an optimistic rallying cry for Linux enthusiasts. While it has not yet come to pass in the traditional desktop sense, Linux continues to grow and evolve, making significant inroads in various computing environments. The phrase now often symbolizes the hope that Linux will one day reach its full potential on the desktop, even if presently only 4% of desktops run Linux.</span>
+                    Distributions like Ubuntu and Linux Mint offer user-friendly interfaces and extensive software repositories, making Linux a secure, customizable choice for personal computing.
+                </p>
+                <p>
+                    <strong>Phones</strong><br>
+                    Android, the world's most popular mobile OS, is built on the Linux kernel, providing stability and security essential for modern smartphones.
+                </p>
+                <p>
+                    <strong>Servers</strong><br>
+                    Linux is the backbone of the internet, running a significant portion of web servers, databases, and cloud infrastructure due to its networking capabilities and robust security features.
+                </p>
+                <p>
+                    <strong>Development</strong><br>
+		    <span class="marginnote">If we consider all forms of repositories (package repositories, source code repositories, personal repositories, and community repositories), there could be millions of Linux-related repositories in existence across various platforms and forms. This vast number reflects the diversity, openness, and collaborative nature of the Linux ecosystem.</span>
+                    Linux offers an unparalleled development environment with a rich set of programming tools and IDEs, making it a preferred choice for developers.
+                </p>
+                <p>
+                    <strong>Community and Collaboration</strong><br>
+                    The Linux community is its greatest strength, offering support, knowledge sharing, and collaboration through forums, mailing lists, and conferences like FOSDEM and DEFCON.
+                </p>
+                <p>
+		<h2><strong>Why this Book?</strong></h2><br></p>
+		<p>This book will guide you through mastering Linux, from understanding hardware and system configuration to advanced networking and security practices, empowering you to handle complex Linux tasks with confidence.
+                </p>
+                <p>
+                    <strong>You'll learn:</strong><br>
+		<span class="marginnote">This book brings you from zero to Linux hero in under 100 pages. From the bare essentials to the more advanced topics and then back to a solid footing on networking and a Linux project. </span>
+		<strong>Installing and Configuring Linux</strong> <br> 
+		Before installing Linux, ensure hardware compatibility and back up your data. Then, choose a distribution that suits your needs, such as Ubuntu or Rocky Linux.
+                </p>
+                <p>
+		<strong>Installation Process</strong><br> 
+		Downloading, verifying, and installing your chosen Linux distribution and configureing it according to your system’s specifications, ensuring a smooth and optimized setup.
+                </p>
+                <p>
+                    <strong>Logging In</strong><br>
+		    <span class="marginnote">As an alternative to installing Linux and logging in, consider using the simulator that has been configured at <strong><a href="http://vm.appliedlinux.net">vm.appliedlinux.net</a>.</strong> </span>
+                    Learn the different methods of logging in to a Linux system, whether through a graphical user interface (GUI), terminal, or remotely via SSH.
+                </p>
+                <p>
+                    <strong>System Updates</strong><br>
+                    Keep your system secure and up-to-date by regularly applying system updates and installing additional software as needed.
+                </p>
+                <p>
+                    <strong>Security Configuration</strong><br>
+                    Implement key security practices such as configuring firewalls and managing user permissions to safeguard your system.
+                </p>
+                <p>
+                    <strong>Hardware Management with Linux</strong><br>
+                    Manage and optimize your hardware, including storage devices, CPU, and peripheral devices, to ensure efficient operation.
+                </p>
+                <p>
+                    <strong>System Monitoring and Troubleshooting</strong><br>
+                    Use Linux’s powerful monitoring tools to track system performance and troubleshoot issues as they arise.
+                </p>
+                <p>
+                    <strong>Automation and Scripting</strong><br>
+		    <span class="marginnote">POSIX and BASH scripting are the foundational tools in the Linux world for automating tasks. While BASH is great to automate shell tasks, Python adds another layer of flexibility and power, especially for more complex automation needs.</span> 
+                    Automate tasks using POSIX and BASH scripting, as well as Python, to enhance productivity and streamline your workflows.
+	</p>
+                <p>
+                    <strong>Networking</strong><br>
+		    <span class="marginnote">One of the areas where Python’s power becomes particularly evident is in networking. Automating network tasks can be complex, but Python’s versatility and vast range of libraries make it manageable and efficient.</span>
+                    Configure and manage network settings, address network issues, and understand key networking concepts to maintain a reliable network environment.
+                </p>
+                <p>
+                    <strong>Learning the Terminal</strong><br>
+                    Master the Linux terminal, a powerful tool for executing commands, managing files, and configuring the system.
+                </p>
+                <p>
+                    <strong>System Updates</strong><br>
+                    Keep your Linux system secure and up-to-date by applying regular patches and updates.
+                </p>
+                <p>
+                    <strong>Security Configuration</strong><br>
+                    Learn to configure firewalls, manage user permissions, and implement security best practices to protect your system.
+                </p>
+                <p>
+                    <strong>Hardware Management</strong><br>
+                    Understand and manage storage devices, CPUs, and other hardware components in your Linux system.
+                </p>
+                <p>
+            </section>
+        </article>
+    </main>
+
+    <h1>    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe4KHkiCJ6v8djBOnHyMaY_YcSrnCmQWmPPRw21gwUCdfGaeg/viewform?embedded=true">Sign up for first release access!</a> 
+
+    <footer>
+        <p>&copy; 2024 Applied Linux. All rights reserved. Revison: 60597</p>
+    </footer>
+</body>
+</html>
