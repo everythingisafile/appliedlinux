@@ -232,7 +232,7 @@
         }
 
         function loadContent() {
-            fetch('site.html')
+            fetch('./site.html')
                 .then(response => response.ok ? response.text() : Promise.reject('Failed to load content'))
                 .then(html => {
                     document.getElementById("content-area").innerHTML = html;
